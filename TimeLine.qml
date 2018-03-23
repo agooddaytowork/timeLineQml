@@ -14,6 +14,8 @@ Item {
     property bool timeSLotSeclected: false
     property int currentSelectedTimeSlotIndex : 0
 
+
+
     function addTimeSlot(x1, x2)
     {
         // collision checking
@@ -55,6 +57,18 @@ console.log("timeLineModel count after remove: " + timeLineModel.count)
     function getTimelineModelLog()
     {
         // return a string ?, sounds nice!
+    }
+
+    function zoom(angleData)
+    {
+        if (angleData < 0)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     onLeftHandSideTimeStampChanged:
@@ -100,201 +114,220 @@ console.log("timeLineModel count after remove: " + timeLineModel.count)
         id: presentModel
     }
 
-    Rectangle
-    {
-        id: timeLineRec
-        width: timeLineWidth
-        height: timeLineHeight
-        z:1
-        color: "grey"
+
+
+
 
         Rectangle
         {
-            id: markerRec
-            width: 1
-            height: timeLineRec.height
-            color: "black"
-            visible: false
-            z:4
+            id: timeLineRec
+             width: timeLineWidth
+            height: timeLineHeight
 
-        }
-
-        Rectangle{
-            id: selectRect
-            anchors.top: timeLineRec.top
-            x:0
-            width: 0
-            height: timeLineRec.height
-            color: "black"
-            z:3
-            opacity: 0.5
-            property int initX
-            property int initY
-
-        }
-
-        MouseArea
-        {
-            id: timeLineMouseArea
-            anchors.fill: parent
-            z:4
-            onPressed: {
-                timeLineRec.focus = false
-                console.log("onPressed")
-
-                timeSLotSeclected = false
-
-                // check if any item selected then select it!
-
-                for( var ii = 0; ii < presentModel.count; ii++)
-                {
-
-                    if(mouseX >= presentModel.get(ii).position && mouseX <= (presentModel.get(ii).position + presentModel.get(ii).theWidth))
-                    {
-                        // selectTed
-                        selectRect.x = 0
-                        selectRect.width =0
-                        selectRect.x = presentModel.get(ii).position
-                        selectRect.width = presentModel.get(ii).theWidth
-
-                        timeSLotSeclected = true
-                        currentSelectedTimeSlotIndex = ii
-                        return
-                    }
-                }
-
-                if(!timeSLotSeclected)
-                {
-                    selectRect.x = timeLineMouseArea.mouseX
-                    selectRect.y = timeLineRec.y
-
-                    selectRect.initX = timeLineMouseArea.mouseX
-                    // selectRect.initY = timeLineMouseArea.mouseY
-
-                    markerRec.visible = true
-                    markerRec.x = timeLineMouseArea.mouseX
-                }
-
-
-            }
-            onPositionChanged:
-            {
-
-                if(!timeSLotSeclected)
-                {
-                    //-x,+y
-                    if(mouseX - selectRect.initX < 0 && mouseY - selectRect.initY > 0)
-                    {
-                        selectRect.x = mouseX
-                        //  selectRect.y = selectRect.initY
-
-                    }
-                    //-x,-y
-                    else if(mouseX - selectRect.initX < 0 && mouseY - selectRect.initY < 0)
-                    {
-                        selectRect.x = mouseX
-                        //selectRect.y = mouseY
-                    }
-                    //+x,-y
-                    else if(mouseX - selectRect.initX > 0 && mouseY - selectRect.initY < 0)
-                    {
-                        selectRect.x = selectRect.initX
-                        //  selectRect.y = mouseY
-                    }
-                    //+x,+y
-                    else
-                    {
-                        //do nothing
-                    }
-                    selectRect.width = Math.abs(mouseX - selectRect.initX)
-                    //                    selectRect.height = Math.abs(mouseY - selectRect.initY)
-
-                }
-
-
-
-            }
-
-            onReleased:
-            {
-                    timeLineRec.focus = true
-                if(!timeSLotSeclected)
-                {
-
-                    markerRec.visible = false
-
-                    var myX;
-                    //-x,+y
-                    if(mouseX - selectRect.initX < 0 )
-                    {
-                        myX = selectRect.x
-                        //  selectRect.y = selectRect.initY
-
-                    }
-                    else
-                    {
-                        myX = selectRect.initX
-                    }
-
-                    selectRect.width = Math.abs(mouseX - selectRect.initX)
-                    //                    selectRect.height = Math.abs(mouseY - selectRect.initY)
-                    selectRect.height = timeLineRec.height
-
-                    //                onKeyList.append({myWidth: selectRect.width, myHeight: selectRect.height, myX: myX - timeLineRec.x, myColor: "red"})
-                }
-
-
-            }
-        }
-
-        Repeater
-        {
-            anchors.fill: parent
-            model: presentModel
+            z:1
+            color: "grey"
 
             Rectangle
             {
-                z:2
-                anchors.top: parent.top
-                color: "green"
-                x: position
-                width: theWidth
-                height: parent.height
+                id: markerRec
+                width: 1
+                height: timeLineRec.height
+                color: "black"
+                visible: false
+                z:4
 
-                Text {
-                    id: onText
-                    text: qsTr("ON")
-                }
             }
-        }
 
+            Rectangle{
+                id: selectRect
+                anchors.top: timeLineRec.top
+                x:0
+                width: 0
+                height: timeLineRec.height
+                color: "black"
+                z:3
+                opacity: 0.5
+                property int initX
+                property int initY
 
-        Keys.onReleased:
-        {
-            if(event.key == Qt.Key_Space)
+            }
+
+            MouseArea
             {
-                if(!timeSLotSeclected)
+                id: timeLineMouseArea
+                anchors.fill: parent
+                z:4
+                onPressed: {
+                    timeLineRec.focus = false
+                    console.log("onPressed")
+
+                    timeSLotSeclected = false
+
+                    // check if any item selected then select it!
+
+                    for( var ii = 0; ii < presentModel.count; ii++)
+                    {
+
+                        if(mouseX >= presentModel.get(ii).position && mouseX <= (presentModel.get(ii).position + presentModel.get(ii).theWidth))
+                        {
+                            // selectTed
+                            selectRect.x = 0
+                            selectRect.width =0
+                            selectRect.x = presentModel.get(ii).position
+                            selectRect.width = presentModel.get(ii).theWidth
+
+                            timeSLotSeclected = true
+                            currentSelectedTimeSlotIndex = ii
+                            return
+                        }
+                    }
+
+                    if(!timeSLotSeclected)
+                    {
+                        selectRect.x = timeLineMouseArea.mouseX
+                        selectRect.y = timeLineRec.y
+
+                        selectRect.initX = timeLineMouseArea.mouseX
+                        // selectRect.initY = timeLineMouseArea.mouseY
+
+                        markerRec.visible = true
+                        markerRec.x = timeLineMouseArea.mouseX
+                    }
+
+
+                }
+                onPositionChanged:
                 {
-                   addTimeSlot(selectRect.x, selectRect.width + selectRect.x)
+
+                    if(!timeSLotSeclected)
+                    {
+                        //-x,+y
+                        if(mouseX - selectRect.initX < 0 && mouseY - selectRect.initY > 0)
+                        {
+                            selectRect.x = mouseX
+                            //  selectRect.y = selectRect.initY
+
+                        }
+                        //-x,-y
+                        else if(mouseX - selectRect.initX < 0 && mouseY - selectRect.initY < 0)
+                        {
+                            selectRect.x = mouseX
+                            //selectRect.y = mouseY
+                        }
+                        //+x,-y
+                        else if(mouseX - selectRect.initX > 0 && mouseY - selectRect.initY < 0)
+                        {
+                            selectRect.x = selectRect.initX
+                            //  selectRect.y = mouseY
+                        }
+                        //+x,+y
+                        else
+                        {
+                            //do nothing
+                        }
+                        selectRect.width = Math.abs(mouseX - selectRect.initX)
+                        //                    selectRect.height = Math.abs(mouseY - selectRect.initY)
+
+                    }
+
+
+
                 }
 
+                onReleased:
+                {
+                        timeLineRec.focus = true
+                    if(!timeSLotSeclected)
+                    {
 
+                        markerRec.visible = false
+
+                        var myX;
+                        //-x,+y
+                        if(mouseX - selectRect.initX < 0 )
+                        {
+                            myX = selectRect.x
+                            //  selectRect.y = selectRect.initY
+
+                        }
+                        else
+                        {
+                            myX = selectRect.initX
+                        }
+
+                        selectRect.width = Math.abs(mouseX - selectRect.initX)
+                        //                    selectRect.height = Math.abs(mouseY - selectRect.initY)
+                        selectRect.height = timeLineRec.height
+
+                        //                onKeyList.append({myWidth: selectRect.width, myHeight: selectRect.height, myX: myX - timeLineRec.x, myColor: "red"})
+                    }
+
+
+                }
+
+                onWheel:
+                {
+
+                    if( wheel.modifiers & Qt.ControlModifier)
+                    {
+                        console.log(wheel.angleDelta)
+                        console.log(wheel.pixelDelta)
+                        console.log(wheel.x)
+                        console.log(wheel.y)
+                    }
+                }
             }
-            else if (event.key == Qt.Key_Delete)
+
+            Repeater
             {
-                removeTimeSlot(currentSelectedTimeSlotIndex)
-                selectRect.width = 0
-                selectRect.x = 0
+                anchors.fill: parent
+                model: presentModel
+
+                Rectangle
+                {
+                    z:2
+                    anchors.top: parent.top
+                    color: "green"
+                    x: position
+                    width: theWidth
+                    height: parent.height
+
+                    Text {
+                        id: onText
+                        text: qsTr("ON")
+                    }
+                }
             }
 
+
+            Keys.onReleased:
+            {
+                if(event.key == Qt.Key_Space)
+                {
+                    if(!timeSLotSeclected)
+                    {
+                       addTimeSlot(selectRect.x, selectRect.width + selectRect.x)
+                    }
+
+
+                }
+                else if (event.key == Qt.Key_Delete)
+                {
+                    removeTimeSlot(currentSelectedTimeSlotIndex)
+                    selectRect.width = 0
+                    selectRect.x = 0
+                }
+
+            }
+
+            MouseArea
+            {
+                anchors.fill: parent
+
+            }
         }
 
-        MouseArea
-        {
-            anchors.fill: parent
 
-        }
-    }
 
 
 

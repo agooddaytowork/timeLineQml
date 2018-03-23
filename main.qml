@@ -18,19 +18,43 @@ Window {
     }
 
 
-        TimeLine
-        {
-            anchors.left: parent.left
-            y:0
-            id: test1
+    Flickable{
+
+        id: giveItanId
+        anchors.fill: parent
+        contentWidth: 800
+        contentHeight: 2000
+        pressDelay: 0
+        interactive: {
+            if(giveItanId.contentItem.activeFocus)
+            {
+                false
+            }
+            else
+                true
         }
 
         TimeLine
         {
-            anchors.left: parent.left
-            y:200
+            z:2
+            y: 0
+            id: test1
+
+
+        }
+
+        TimeLine
+        {
+            z:2
+            y: 300
+
             id: test2
         }
+
+
+
+
+    }
 
 
 

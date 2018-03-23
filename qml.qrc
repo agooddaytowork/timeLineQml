@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TimeLine.qml</file>
+    </qresource>
+</RCC>

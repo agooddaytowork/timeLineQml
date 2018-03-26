@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import QtQuick.Controls.Styles 1.4
+import QtCharts 2.2
 
 
 Item {
@@ -238,6 +239,16 @@ Item {
             z:1
             color: "grey"
 
+            ChartView
+            {
+                anchors.top: timeLineRec.top
+                anchors.left: timeLineRec.left
+                z:1
+                width: timeLineWidth
+                height: timeLineHeight * 0.5
+
+            }
+
             Rectangle
             {
                 id: markerRec
@@ -262,6 +273,8 @@ Item {
                 property int initY
 
             }
+
+
 
             MouseArea
             {

@@ -25,14 +25,7 @@ Window {
         contentWidth: 800
         contentHeight: 2000
         pressDelay: 0
-        interactive: {
-            if(giveItanId.contentItem.activeFocus)
-            {
-                false
-            }
-            else
-                true
-        }
+        interactive: true
 
         TimeLine
         {
@@ -40,6 +33,16 @@ Window {
             y: 0
             id: test1
 
+            onTimeLinePressed:
+            {
+                console.log("onTimelinePress")
+                giveItanId.interactive = false
+            }
+
+            onTimeLineReleased:
+            {
+                giveItanId.interactive = true
+            }
 
         }
 
@@ -47,12 +50,18 @@ Window {
         {
             z:2
             y: 300
-
             id: test2
+            onTimeLinePressed:
+            {
+                console.log("onTimelinePress")
+                giveItanId.interactive = false
+            }
+
+            onTimeLineReleased:
+            {
+                giveItanId.interactive = true
+            }
         }
-
-
-
 
     }
 
